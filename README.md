@@ -20,9 +20,9 @@ This repository provides basic qlik sense client managed hooks and operators to 
 The package has been tested with Python 3.7, Python 3.8.
 
 |  Package  |  Version  |
-|-----------|-----------|
+|-----------|---------------|
 | apache-airflow | >2.0 |
-
+| requests_ntlm2 | >=2 6.5.2 |
 
 ## How to install it ?
 
@@ -42,7 +42,7 @@ python setup.py install
 ## How to use it ?
 <br/>
 
-On this provider, you can use three way to let Airflow connecting to your Qlik Sense Client Managed Site.
+On this provider, you can use three way to let Airflow connecting to your Qlik Sense NPrinting Site.
 
 • NTLM Authentification: Authentification with a username and password used in Qlik in everyday life. Warning: Airflow will have the same rights of the user you provide.
 • JWT Authentification: Authentification with a jwt token that you provide to Airflow. Warning: A JWT virtual proxy will have to be create on your Qlik Sense Site. To do this you can following the step of the section Appendix: How to create a JWT Virtual Proxy in Qlik or this article from Qlik Community: https://community.qlik.com/t5/Official-Support-Articles/Qlik-Sense-How-to-set-up-JWT-authentication/ta-p/1716226
@@ -55,23 +55,24 @@ On this provider, you can use three way to let Airflow connecting to your Qlik S
 **Prerequisites**:  
 <br>
 • A login account with password
-• URL of your Qlik Sense Site (with the virtual proxy using NTLM auth)
+• URI of your Qlik Sense NPrinting Site 
 
 **Step 1**: Login in your Airflow Server. 
 
 **Step 2**: Go into Admin > Connections > Add A New Record. 
 
-**Step 3**: Select [NTLM] Qlik Sense Client Managed.
+**Step 3**: Select [NTLM] Qlik Sense NPrinting.
 
 **Step 4** Provide following informations:
     
-           • Connection Id of your choise
-           • Qlik Sense Url using the NTLM Virtual Proxy
-           • Qlik Username (DOMAIN\USERNAME)
-           • Qlik Password
+           • Connection Id of your choice
+           • Qlik Sense NPrinting URL without any port
+           • Qlik Username (example: DOMAIN\\USERNAME)
+           • Qlik Password of the account used
 
-**Step 5** Save and your connection to Qlik Client Managed using NTLM auth is ready to use !
+Be careful this Qlik NPrinting Account must have privilieges to trigger the task.
 
+**Step 5** Save and your connection to Qlik Client NPrinting using NTLM auth is ready to use !
 
 ### 2. JWT Authentification Example
 <br/>
@@ -99,7 +100,10 @@ On this provider, you can use three way to let Airflow connecting to your Qlik S
 <br/>
 Builing the section. No available yet.
 
-### 4. Example: Creating a DAG with Qlik Sense Operator to reload App 
+
+
+
+### 4. Example: Creating a DAG with Qlik Sense NPrinting to reload tasks 
 
 You can now use the operators in your dags to trigger a reload of an app in Qlik Sense from Airflow
 
@@ -107,7 +111,7 @@ Example:
 
 ```python
 
-from airflow.providers.qlik_sense.operators.reload_app_operator import QlikSenseReloadAppOperator
+from airflow.providers.qlik_sense_nprinting.operators.reload_task_operator import QlikNPrintingReloadTaskOperator
 from airflow import DAG
 from airflow.utils.dates import days_ago
 from datetime import timedelta
@@ -122,27 +126,22 @@ default_args = {
     'retry_delay': timedelta(minutes=5)
 }
 
-idApp="" #Fill the id of your application you want to reload
-connId="" #Fill the connection id you gave when creating the connection in airflow
 
 with DAG(
-    'QlikSenseReloadAppExample',
+    'QlikSenseTriggerTaskExample',
     default_args=default_args,
-    description='A simple tutorial DAG reloading Qlik Sense App',
+    description='A simple tutorial DAG reloading Qlik Sense NPrinting Task',
     schedule_interval=timedelta(days=1),
     start_date=days_ago(2),
-    tags=['Qlik', 'Example'],
+    tags=['QlikNPrinting', 'Example'],
 ) as dag:
     
-    op = QlikSenseReloadAppOperator(app_id=idApp, conn_id=connId, task_id="QlikReloadTask")
+    nprintingTask = QlikNPrintingReloadTaskOperator(taskId="uiidofyournprintingtask", conn_id="hookNPrintingHook", task_id="MyHelloWorldNPrintingTask", waitUntilFinished=True)
     
-    op
+    nprintingTask
 
 ```
 
 <br/>
 
-### 6. (Appendix) Configuration of JWT Virtual Proxy
-
-Building Section not available yet
 
