@@ -5,15 +5,15 @@
 </p>
 
 <h1 align="center">
-  Airflow: Qlik Sense Client Managed Provider (BETA)
+  Airflow: Qlik Sense NPrinitng Provider
 </h1>
   <h3 align="center">
-    Qlik Sense Client Managed Provider to reload application, tasks from Airflow.
+    Qlik Sense NPrinting Provider to reload application, tasks from Airflow.
 </h3>
 
 <br/>
 
-This repository provides basic qlik sense client managed hooks and operators to trigger reloads of applications, tasks available in a Qlik Sense Client Managed Site.
+This repository provides basic Qlik NPrinting hooks and operators to trigger reloads of tasks available in a Qlik Sense NPrinting Site.
 
 ## Requirements
 
