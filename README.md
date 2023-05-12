@@ -8,7 +8,7 @@
   Airflow: Qlik Sense NPrinitng Provider
 </h1>
   <h3 align="center">
-    Qlik Sense NPrinting Provider to reload application, tasks from Airflow.
+    Qlik Sense NPrinting Provider to reload tasks from Airflow.
 </h3>
 
 <br/>
