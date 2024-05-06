@@ -29,6 +29,14 @@ The package has been tested with Python 3.7, Python 3.8.
 
 To install it, download and unzip source and launch the following pip install command: 
 
+By using Pypi,
+
+```bash
+pip install airflow-provider-qlik-sense-nprinting
+```
+
+In Local,
+
 ```bash
 pip install .
 ```
