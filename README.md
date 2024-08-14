@@ -5,7 +5,7 @@
 </p>
 
 <h1 align="center">
-  Airflow: Qlik Sense NPrinitng Provider
+  Airflow: Qlik Sense NPrinting Provider
 </h1>
   <h3 align="center">
     Qlik Sense NPrinting Provider to reload tasks from Airflow.
